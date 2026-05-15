@@ -12,6 +12,10 @@ function DecisionButtons() {
   const [yesClicked, setYesClicked] = useState(false)
   const [formSubmitted, setFormSubmitted] = useState(false)
 
+  const [dietary, setDietary] = useState("")
+  const [drink, setDrink] = useState("")
+  const [transportation, setTransportation] = useState("")
+
   const handleNoHover = useCallback(() => {
     const button = noButtonRef.current
     if (!button) return
@@ -44,12 +48,12 @@ function DecisionButtons() {
   }
 
   const handleGoogleCalendar = () => {
-    const url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Sushi+Date+with+Kadean&dates=20260523T190000Z/20260523T210000Z&details=Sushi+date+at+Japatapa+Toshibar.+Dress+code:+Main+Character+Energy.&location=Japatapa+Toshibar";
+    const url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Sushi+Date+with+Kadean&dates=20260523T190000Z/20260523T210000Z&details=Sushi+date+at+Japatapa+Toshibar.+Dress+code:+Main+Character+Energy.&location=Japatapa+Toshibar&add=wolfenstien456@zoho.com";
     window.open(url, '_blank');
   };
 
   const handleOutlookCalendar = () => {
-    const url = "https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=2026-05-23T19:00:00Z&enddt=2026-05-23T21:00:00Z&subject=Sushi%20Date%20with%20Kadean&body=Sushi%20date%20at%20Japatapa%20Toshibar.%20Dress%20code:%20Main%20Character%20Energy.&location=Japatapa%20Toshibar";
+    const url = "https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=2026-05-23T19:00:00Z&enddt=2026-05-23T21:00:00Z&subject=Sushi%20Date%20with%20Kadean&body=Sushi%20date%20at%20Japatapa%20Toshibar.%20Dress%20code:%20Main%20Character%20Energy.&location=Japatapa%20Toshibar&to=wolfenstien456@zoho.com";
     window.open(url, '_blank');
   };
 
@@ -156,6 +160,9 @@ function DecisionButtons() {
             <form 
               onSubmit={(e) => { 
                 e.preventDefault(); 
+                const subject = encodeURIComponent("Date Preferences & Details");
+                const body = encodeURIComponent(`Hey Kadean,\n\nHere are my preferences for our date:\n\nDietary Restrictions: ${dietary || "None"}\nDrink of Choice: ${drink || "Surprise me"}\nTransportation: ${transportation || "Not specified"}\n\nCan't wait!\n- Lucija`);
+                window.location.href = `mailto:wolfenstien456@zoho.com?subject=${subject}&body=${body}`;
                 setFormSubmitted(true); 
               }}
               style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
@@ -164,6 +171,8 @@ function DecisionButtons() {
                 <label className="font-mono-data" style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.1em' }}>ANY DIETARY RESTRICTIONS?</label>
                 <input 
                   type="text" 
+                  value={dietary}
+                  onChange={(e) => setDietary(e.target.value)}
                   placeholder="e.g. no shellfish, allergic to bad vibes..." 
                   style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 16px', color: '#fff', fontFamily: "'Geist Mono', monospace", fontSize: '0.85rem' }}
                 />
@@ -172,7 +181,19 @@ function DecisionButtons() {
                 <label className="font-mono-data" style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.1em' }}>DRINK OF CHOICE?</label>
                 <input 
                   type="text" 
+                  value={drink}
+                  onChange={(e) => setDrink(e.target.value)}
                   placeholder="Sake, Wine, Matcha, Water..." 
+                  style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 16px', color: '#fff', fontFamily: "'Geist Mono', monospace", fontSize: '0.85rem' }}
+                />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <label className="font-mono-data" style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.1em' }}>TRANSPORTATION: PICK UP OR MEET THERE?</label>
+                <input 
+                  type="text" 
+                  value={transportation}
+                  onChange={(e) => setTransportation(e.target.value)}
+                  placeholder="e.g. Pick me up at 123 Main St..." 
                   style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 16px', color: '#fff', fontFamily: "'Geist Mono', monospace", fontSize: '0.85rem' }}
                 />
               </div>
