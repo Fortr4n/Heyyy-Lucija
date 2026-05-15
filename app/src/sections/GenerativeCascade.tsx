@@ -7,10 +7,10 @@ import { galleryConfig, type WorkItem } from '../config'
 
 gsap.registerPlugin(ScrollTrigger)
 
-function distributeCards(works: WorkItem[]) {
-  const cols: WorkItem[][] = [[], [], [], []]
+function distributeCards(works: WorkItem[], numCols: number) {
+  const cols: WorkItem[][] = Array.from({ length: numCols }, () => [])
   works.forEach((card, i) => {
-    cols[i % 4].push(card)
+    cols[i % numCols].push(card)
   })
   return cols
 }
@@ -23,6 +23,14 @@ export default function GenerativeCascade() {
 
   const works = galleryConfig.works
   const hasWorks = works.length > 0
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -144,11 +152,12 @@ export default function GenerativeCascade() {
         if (st.vars.trigger === '#engine-showcase') st.kill()
       })
     }
-  }, [hasWorks])
+  }, [hasWorks, isMobile])
 
   if (!hasWorks) return null
 
-  const columns = distributeCards(works)
+  const numCols = isMobile ? 2 : 4
+  const columns = distributeCards(works, numCols)
 
   return (
     <section
@@ -180,23 +189,26 @@ export default function GenerativeCascade() {
           position: 'relative',
           zIndex: 1,
           display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
           width: '100%',
           borderLeft: '1px solid var(--border-color)',
         }}
       >
         <div
           style={{
-            width: 'clamp(160px, 18vw, 260px)',
+            width: isMobile ? '100%' : 'clamp(160px, 18vw, 260px)',
             flexShrink: 0,
-            borderRight: '1px solid var(--border-color)',
-            position: 'sticky',
+            borderRight: isMobile ? 'none' : '1px solid var(--border-color)',
+            borderBottom: isMobile ? '1px solid var(--border-color)' : 'none',
+            position: isMobile ? 'relative' : 'sticky',
             top: 0,
-            height: '100vh',
-            padding: '32px 20px',
+            height: isMobile ? 'auto' : '100vh',
+            padding: isMobile ? '32px 20px 24px' : '32px 20px',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            justifyContent: isMobile ? 'flex-start' : 'space-between',
             background: 'rgba(255,255,255,0.92)',
+            zIndex: 2,
           }}
         >
           <div>
@@ -218,7 +230,7 @@ export default function GenerativeCascade() {
               <div
                 className="font-geist-mono"
                 style={{
-                  fontSize: '1.8rem',
+                  fontSize: isMobile ? '1.4rem' : '1.8rem',
                   fontWeight: 500,
                   color: '#000',
                   lineHeight: 1.15,
@@ -242,6 +254,7 @@ export default function GenerativeCascade() {
                   color: 'rgba(0,0,0,0.4)',
                   lineHeight: 1.8,
                   letterSpacing: '0.05em',
+                  marginBottom: isMobile ? '16px' : '0',
                 }}
               >
                 {galleryConfig.stats.map((stat, i) => (
@@ -270,9 +283,9 @@ export default function GenerativeCascade() {
           style={{
             flex: 1,
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: `repeat(${numCols}, 1fr)`,
             gap: 0,
-            padding: '80px 0',
+            padding: isMobile ? '40px 0' : '80px 0',
           }}
           className="cascade-grid"
         >
@@ -280,7 +293,7 @@ export default function GenerativeCascade() {
             <div
               key={colIdx}
               style={{
-                borderRight: colIdx < 3 ? '1px solid var(--border-color)' : 'none',
+                borderRight: colIdx < numCols - 1 ? '1px solid var(--border-color)' : 'none',
               }}
             >
               <div id={`track-${colIdx + 1}`}>
@@ -292,17 +305,6 @@ export default function GenerativeCascade() {
           ))}
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .cascade-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-          #track-3, #track-4 {
-            display: none;
-          }
-        }
-      `}</style>
     </section>
   )
 }

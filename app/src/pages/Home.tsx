@@ -174,7 +174,7 @@ function DecisionButtons() {
                   value={dietary}
                   onChange={(e) => setDietary(e.target.value)}
                   placeholder="e.g. no shellfish, allergic to bad vibes..." 
-                  style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 16px', color: '#fff', fontFamily: "'Geist Mono', monospace", fontSize: '0.85rem' }}
+                  style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 16px', color: '#fff', fontFamily: "'Geist Mono', monospace", fontSize: '16px' }}
                 />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -184,7 +184,7 @@ function DecisionButtons() {
                   value={drink}
                   onChange={(e) => setDrink(e.target.value)}
                   placeholder="Sake, Wine, Matcha, Water..." 
-                  style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 16px', color: '#fff', fontFamily: "'Geist Mono', monospace", fontSize: '0.85rem' }}
+                  style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 16px', color: '#fff', fontFamily: "'Geist Mono', monospace", fontSize: '16px' }}
                 />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -194,7 +194,7 @@ function DecisionButtons() {
                   value={transportation}
                   onChange={(e) => setTransportation(e.target.value)}
                   placeholder="e.g. Pick me up at 123 Main St..." 
-                  style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 16px', color: '#fff', fontFamily: "'Geist Mono', monospace", fontSize: '0.85rem' }}
+                  style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 16px', color: '#fff', fontFamily: "'Geist Mono', monospace", fontSize: '16px' }}
                 />
               </div>
               <button 
@@ -268,6 +268,7 @@ function DecisionButtons() {
       <button
         ref={noButtonRef}
         onMouseEnter={handleNoHover}
+        onTouchStart={(e) => { e.preventDefault(); handleNoHover(); }}
         style={{
           padding: '20px 60px',
           fontSize: 'clamp(1rem, 2vw, 1.4rem)',
