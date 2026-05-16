@@ -197,27 +197,47 @@ function DecisionButtons() {
                   style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 16px', color: '#fff', fontFamily: "'Geist Mono', monospace", fontSize: '16px' }}
                 />
               </div>
-              <button 
-                type="submit"
-                style={{
-                  marginTop: '16px',
-                  padding: '16px',
-                  background: '#fff',
-                  color: '#000',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontFamily: "'Geist Mono', monospace",
-                  fontWeight: 'bold',
-                  letterSpacing: '0.1em'
-                }}
-              >
-                SUBMIT PREFERENCES
-              </button>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
+                <button 
+                  type="submit"
+                  style={{
+                    padding: '20px',
+                    background: '#fff',
+                    color: '#000',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontFamily: "'Geist Mono', monospace",
+                    fontWeight: 'bold',
+                    letterSpacing: '0.2em',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#f0f0f0';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = '#fff';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  GENERATE EMAIL DRAFT
+                </button>
+                <p className="font-mono-data" style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', textAlign: 'center', letterSpacing: '0.05em', lineHeight: 1.5 }}>
+                  NOTE: THIS WILL OPEN YOUR MAIL APP. <br/> PLEASE REMEMBER TO CLICK <b>SEND</b>!
+                </p>
+              </div>
             </form>
           </div>
         ) : (
-          <div className="font-mono-data" style={{ padding: '32px', border: '1px dashed rgba(255,255,255,0.2)', color: '#4ade80', letterSpacing: '0.05em' }}>
-            ✓ Preferences saved! Everything is set.
+          <div className="font-mono-data" style={{ padding: '40px', border: '1px solid #4ade80', background: 'rgba(74, 222, 128, 0.05)', color: '#4ade80', textAlign: 'center', width: '100%' }}>
+            <div style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '16px', letterSpacing: '0.1em' }}>✓ DRAFT GENERATED</div>
+            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.05em' }}>
+              Please switch to your email app now.<br/>
+              The details are pre-filled—all you need to do is hit <b style={{ color: '#fff' }}>SEND</b> to let Kadean know!
+            </p>
+            <div style={{ marginTop: '24px', fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.05em' }}>
+              (If your mail app didn't open, please check your browser settings)
+            </div>
           </div>
         )}
       </div>
